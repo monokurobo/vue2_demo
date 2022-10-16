@@ -13,4 +13,26 @@
         标记: <h1 ref="xxx" ></h1>
         获取: this.#refs.xxx
 
-## props
+## props : 让组件接收外部传入的数据
+    1.传递数据
+        <Demo name="xxxx"/>
+        注: number 类型, 用 ' :age="18" '
+    2.接收数据
+        // 简单接收
+        props:['name','address','amount'] 
+        // 限制类型
+        props:{
+            name: String
+        }
+        // 限制类型 和 必要性
+        props:{
+            name: {
+                type: String,
+                required: true  // 必传
+            }
+            amount: {
+                type: String,
+                default: 0 // 默认值, 和 required 不同时出现
+            }
+        }
+        注: props 只读
