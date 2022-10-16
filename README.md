@@ -1,6 +1,9 @@
-# vue_test
+# [尚硅谷-Vue.js从入门到精通(B站)-学习记录](https://www.bilibili.com/video/BV1Zy4y1K7SH/?spm_id_from=333.999.0.0&vd_source=8eab7402e9d77f02c15aaa5314543110)
 
-1.关于 src :带数字编号的文件夹,修改为 src 后,可运行
+## 目录说明
+
+* 00_html 文件夹,为非脚手架环境代码
+* xx_src_xxx 文件夹,为脚手架环境下的 src 文件夹,修改为 src 即可使用
 
 ## ref指令
 
@@ -9,3 +12,5 @@
     3.使用方式:
         标记: <h1 ref="xxx" ></h1>
         获取: this.#refs.xxx
+
+## props
