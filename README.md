@@ -14,6 +14,7 @@
         获取: this.#refs.xxx
 
 ## props : 让组件接收外部传入的数据
+
     1.传递数据
         <Demo name="xxxx"/>
         注: number 类型, 用 ' :age="18" '
@@ -36,3 +37,21 @@
             }
         }
         注: props 只读
+
+## mixin : 把多个组件共用的配置提前到一个混合对象
+
+    定义:
+        {
+            data(){...},
+            methods:{...},
+            ...
+        }
+    使用:
+        全局:Vue.mixin(mixin)
+        局部:
+          import {mixin} from '../mixin.js';
+            export default {
+                mixins: [mixin],
+            }
+
+## 
