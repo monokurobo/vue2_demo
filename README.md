@@ -70,4 +70,6 @@
         }
     使用: Vue.use(plugin)
 
-## 
+## scoped : 让样式局部生效,防止冲突
+
+    <style scoped></style>
