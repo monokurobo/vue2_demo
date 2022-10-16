@@ -54,4 +54,20 @@
                 mixins: [mixin],
             }
 
+## plugin : 增强 vue
+
+    本质: 包含 install 方法的一个对象, install(vue,插件使用者传染地的数据)
+    定义:
+        obj.install = function (Vue, options){
+           
+            Vue.filter(...) // 全局过滤器
+            
+            Vue.directive(...)  // 定义全局指令
+            
+            Vue.mixin(...)  // 定义混入
+            
+            Vue.prototype.hello = xxx   // 给 vue 原型上添加方法
+        }
+    使用: Vue.use(plugin)
+
 ## 
