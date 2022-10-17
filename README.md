@@ -158,4 +158,8 @@
         }
     注: 在 Vue 中, 使用 GlobalEventBus
 
-## 15
+## 16 nextick
+
+        语法: this.$nextick(function)
+        作用: 下一次DOM 更新结束后执行指定回调
+        时机: 当改变数据后, 需要对更新后的 DOM 进行操作
