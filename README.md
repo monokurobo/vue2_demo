@@ -5,7 +5,7 @@
 * 00_html 文件夹,为非脚手架环境代码
 * xx_src_xxx 文件夹,为脚手架环境下的 src 文件夹,修改为 src 即可使用
 
-##  2. ref指令
+## 2. ref指令
 
     1.id 的替代
     2.在标签上,获得的是 dom 元素;在组件上,获得的是 VueComponent 对象实例.
@@ -133,3 +133,29 @@
             }
     
     注: 最好在  beforeDestroy 中 解绑
+
+## 14. 消息订阅与发布 pubsub : 组件间通信方式, 适用于 任意组件间
+
+    安装: npm i pubsub-js
+    引入: import pubsub from "pubsub-js"
+    接收数据:
+        methods:{
+            reseiveData(data) {
+                ...
+            }
+        },
+        mounted(){
+            this.pubid = pubsub.subscribe('event', this.receiveData)
+        },
+        destory(){
+            pubsub.unsubscribe(this.pubid)
+        }
+    发送数据: 
+        methods:{
+            sendData(data) {
+                pubsub.publish('event', data)
+            }
+        }
+    注: 在 Vue 中, 使用 GlobalEventBus
+
+## 15
