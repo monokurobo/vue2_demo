@@ -189,4 +189,55 @@
                 }
             }
         }
-        请求资源时必须加前缀
+        注:请求资源时必须加前缀
+
+## 22. slot : 让 父组件 可以向 子组件 指定的位置插入 html 结构
+
+    默认插槽
+        父组件
+            <Category title="美食">
+                <img src="" alt="img">
+            </Category>
+        子组件
+            <template>
+                <div class="category">
+                    <h3>{{title}}分类</h3>
+                    <slot></slot>
+                </div>
+            </template>
+
+    具名插槽
+        父组件
+            <Category title="美食">
+               <a slot="slot" href="">更多美食</a>
+            </Category>
+        子组件
+            <template>
+                <div class="category">
+                    <h3>{{title}}分类</h3>
+                    <slot name="slot"></slot>
+                </div>
+            </template>
+
+    作用域插槽: 父组件决定结构, 子组件决定数据
+        父组件
+            <Category title="游戏">
+                <template scope="data">
+                    <ul>
+                    <li v-for="(item,index) in data.games" :key="index">{{item}}</li>
+                    </ul>
+                </template>
+            </Category>
+
+            <Category title="游戏">
+            <template slot-scope={games}>
+                <h4 v-for="(item,index) in games" :key="index">{{item}}</h4>
+            </template>
+            </Category>
+        子组件: 数据 games 在子组件中
+            <template>
+            <div class="category">
+                <h3>{{title}}分类</h3>
+                <slot :games="games"></slot>
+            </div>
+            </template>
