@@ -89,7 +89,7 @@
     
     4.props 是对象类型时, 修改对象中的属性, vue 不会报错, 不建议修改
 
-## 9. 自定义事件 : 组件间通信方式, 适用于 子 ===> 父
+## 10. 自定义事件 : 组件间通信方式, 适用于 子 ===> 父
 
     1.事件回调在 父组件 中
     2.绑定方式: 
@@ -104,3 +104,32 @@
     4.解绑: this.$off() / this.$off('event') / this.$off(['event1', 'event2', 'event3'])
     5.组件上绑定原生事件, 需要使用 native 修饰符
     注: 使用 this.$refs.xxx.$on 时, 回调函数的作用域, 建议回调卸载 methods中, 使用匿名函数写成箭头函数
+
+## 12. 全局数据总线 GlobalEventBus : 组件间通信方式, 适用于 任意组件间
+
+    安装数据总线
+        new Vue({
+            ...
+            beforeCreate () {
+                Vue.prototype.$bus = this
+            }
+        }).$mount('#app')
+    
+    使用数据总线
+        接收数据:
+            methods:{
+                reseiveData(data) {
+                    ...
+                }
+            },
+            mounted(){
+                this.$bus.$on('event', this.receiveData)
+            }
+        发送数据: 
+            methods:{
+                sendData(data) {
+                    this.$bus.$emit('event', data)
+                }
+            }
+    
+    注: 最好在  beforeDestroy 中 解绑
