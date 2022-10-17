@@ -171,3 +171,22 @@
         1.准备好样式: v-enter,v-leave-to,v-enter-to,v-leave,v-enter-active,v-leave-active
         2.使用 transition 包裹元素, 并配置 name
     注: 多个元素使用 transition-group, 并且每个元素需要配置 key
+
+## 19. Vue-cli 的服务代理 : vue.config.js中配置
+
+    方式一
+        devServer: {
+            proxy: 'http://localhost:5000'
+        }
+        不能配置多个, 不能指定是否代理
+    方式二
+        devServer: {
+            proxy: {
+                '/api': {   //匹配以 /api 开头的请求路劲
+                    target: 'http://localhost:5000',
+                    changeOrigin: true, //是否如实告知对方代理服务器的端口号
+                    pathRewrite: { '^/api': '' }  //将添加的/api前缀删除
+                }
+            }
+        }
+        请求资源时必须加前缀
