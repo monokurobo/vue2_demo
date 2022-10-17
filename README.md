@@ -158,8 +158,16 @@
         }
     注: 在 Vue 中, 使用 GlobalEventBus
 
-## 16 nextick
+## 16. nextick
 
         语法: this.$nextick(function)
         作用: 下一次DOM 更新结束后执行指定回调
         时机: 当改变数据后, 需要对更新后的 DOM 进行操作
+
+## 17. Vue 封装的过渡与动画
+
+    作用: 在插入/更新/移除元素时, 在合适的时机给元素添加上样式类名
+    使用:
+        1.准备好样式: v-enter,v-leave-to,v-enter-to,v-leave,v-enter-active,v-leave-active
+        2.使用 transition 包裹元素, 并配置 name
+    注: 多个元素使用 transition-group, 并且每个元素需要配置 key
