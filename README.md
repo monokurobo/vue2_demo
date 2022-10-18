@@ -433,3 +433,25 @@ methods:{
     ```
 
     2. 组件中读取数据：`$store.getters.bigSum`
+
+## 26,27 vuex mapper
+
+1. `mapperState`: 映射`state`中的数据为计算属性
+
+```js
+computed: {
+    ...mapState({sum:'sum',school:'school',subject:'subject'}),
+            
+    ...mapState(['sum','school','subject']),
+},
+```
+
+2. `mapperGetter`: 映射`getters`中的数据为计算属性
+
+```js
+computed: {
+    ...mapGetters({bigSum:'bigSum'}),
+
+    ...mapGetters(['bigSum'])
+},
+```
