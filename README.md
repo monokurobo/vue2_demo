@@ -1,11 +1,39 @@
 # [尚硅谷-Vue.js从入门到精通(B站)-学习记录](https://www.bilibili.com/video/BV1Zy4y1K7SH/?spm_id_from=333.999.0.0&vd_source=8eab7402e9d77f02c15aaa5314543110)
 
-## 目录说明
+## 脚手架文件结构
 
-* 00_html 文件夹,为非脚手架环境代码
-* xx_src_xxx 文件夹,为脚手架环境下的 src 文件夹,修改为 src 即可使用
+ ├──00_html: 非脚手架环境代码
+ ├──dd_src_xxx: 按小节存储的 src 文件
+ ├── node_modules
+ ├── public
+ │   ├── favicon.ico: 页签图标
+ │   └── index.html: 主页面
+ ├── src
+ │   ├── assets: 存放静态资源
+ │   │   └── logo.png
+ │   │── component: 存放组件
+ │   │   └── HelloWorld.vue
+ │   │── App.vue: 汇总所有组件
+ │   │── main.js: 入口文件
+ ├── .gitignore: git版本管制忽略的配置
+ ├── babel.config.js: babel的配置文件
+ ├── package.json: 应用包配置文件
+ ├── README.md: 应用描述文件
+ ├── package-lock.json：包版本控制文件
 
-## 2. ref指令
+## 关于不同版本的Vue
+
+1. vue.js与vue.runtime.xxx.js的区别：
+    1. vue.js是完整版的Vue，包含：核心功能 + 模板解析器。
+    2. vue.runtime.xxx.js是运行版的Vue，只包含：核心功能；没有模板解析器。
+2. 因为vue.runtime.xxx.js没有模板解析器，所以不能使用template这个配置项，需要使用render函数接收到的createElement函数去指定具体内容。
+
+## vue.config.js配置文件
+
+1. 使用vue inspect > output.js可以查看到Vue脚手架的默认配置。
+2. 使用vue.config.js可以对脚手架进行个性化定制，详情见：<https://cli.vuejs.org/zh>
+
+## ref指令
 
 1. id 的替代
 2. 在标签上,获得的是 dom 元素;在组件上,获得的是 VueComponent 对象实例.
@@ -13,40 +41,40 @@
     标记: `<h1 ref="xxx" ></h1>`
     获取: `this.#refs.xxx`
 
-## 3. props : 让组件接收外部传入的数据
+## props : 让组件接收外部传入的数据
 
 1. 传递数据
 
-    ```js
-    <Demo name="xxxx"/>
-    ```
+```js
+<Demo name="xxxx"/>
+```
 
-    > 注: number 类型, 用 ' :age="18" '
+> 注: number 类型, 用 ' :age="18" '
 2. 接收数据
 
-    ```js
-    // 简单接收
-    props:['name','address','amount'] 
-    // 限制类型
-    props:{
-        name: String
+```js
+// 简单接收
+props:['name','address','amount'] 
+// 限制类型
+props:{
+    name: String
+}
+// 限制类型 和 必要性
+props:{
+    name: {
+        type: String,
+        required: true  // 必传
     }
-    // 限制类型 和 必要性
-    props:{
-        name: {
-            type: String,
-            required: true  // 必传
-        }
-        amount: {
-            type: String,
-            default: 0 // 默认值, 和 required 不同时出现
-        }
+    amount: {
+        type: String,
+        default: 0 // 默认值, 和 required 不同时出现
     }
-    ```
+}
+```
 
-    > 注: props 只读
+> 注: props 只读
 
-## 4. mixin : 把多个组件共用的配置提前到一个混合对象
+## mixin : 把多个组件共用的配置提前到一个混合对象
 
 定义:
 
@@ -70,7 +98,7 @@ export default {
 }
 ```
 
-## 5. plugin : 增强 vue
+## plugin : 增强 vue
 
 本质: 包含 install 方法的一个对象, install(vue,插件使用者传染地的数据)
 定义:
@@ -91,14 +119,14 @@ obj.install = function (Vue, options){
 使用:
 `Vue.use(plugin)`
 
-## 6. scoped : 让样式局部生效,防止冲突
+## scoped : 让样式局部生效,防止冲突
 
 ```js
 <style scoped>
 </style>
 ```
 
-## 7. TODOLIST 案例
+## TODOLIST 案例
 
 1. 组件化编码流程:
     1. 拆分静态组件: 按照功能点拆分, 命名不要与 `html` 元素冲突
@@ -113,7 +141,7 @@ obj.install = function (Vue, options){
 
 4. `props` 是对象类型时, 修改对象中的属性, vue 不会报错, 不建议修改
 
-## 10. 自定义事件 : 组件间通信方式, 适用于 子 ===> 父
+## 自定义事件 : 组件间通信方式, 适用于 子 ===> 父
 
 1. 事件回调在 父组件 中
 2. 绑定方式:
@@ -139,7 +167,7 @@ obj.install = function (Vue, options){
 
 > 注: 使用 `this.$refs.xxx.$on` 时, 回调函数的作用域, 建议回调卸载 `methods` 中, 使用匿名函数写成箭头函数
 
-## 12. 全局数据总线 GlobalEventBus : 组件间通信方式, 适用于 任意组件间
+## 全局数据总线 GlobalEventBus : 组件间通信方式, 适用于 任意组件间
 
 安装数据总线
 
@@ -177,7 +205,7 @@ methods:{
 
 > 注: 最好在  beforeDestroy 中 解绑
 
-## 14. 消息订阅与发布 pubsub : 组件间通信方式, 适用于 任意组件间
+## 消息订阅与发布 pubsub : 组件间通信方式, 适用于 任意组件间
 
 安装: `npm i pubsub-js`
 引入: `import pubsub from "pubsub-js"`
@@ -209,13 +237,13 @@ methods:{
 
 > 注: 在 Vue 中, 使用 GlobalEventBus
 
-## 16. nextick
+## nextick
 
 语法: `this.$nextick(function)`
 作用: 下一次DOM 更新结束后执行指定回调
 时机: 当改变数据后, 需要对更新后的 DOM 进行操作
 
-## 17. Vue 封装的过渡与动画
+## Vue 封装的过渡与动画
 
 作用: 在插入/更新/移除元素时, 在合适的时机给元素添加上样式类名
 使用:
@@ -223,36 +251,37 @@ methods:{
     2. 使用 `transition` 包裹元素, 并配置 `name`
 > 注: 多个元素使用 `transition-group`, 并且每个元素需要配置 `key`
 
-## 19. Vue-cli 的服务代理 : vue.config.js中配置
+## Vue-cli 的服务代理 : vue.config.js中配置
 
-1. 方式一
+### 1. 方式一
 
-    ```js
-    devServer: {
-        proxy: 'http://localhost:5000'
-    }
-    ```
+```js
+devServer: {
+    proxy: 'http://localhost:5000'
+}
+```
 
-    缺点: 不能配置多个, 不能指定是否代理
-2. 方式二
+缺点: 不能配置多个, 不能指定是否代理
 
-    ```js
-    devServer: {
-        proxy: {
-            '/api': {   //匹配以 /api 开头的请求路劲
-                target: 'http://localhost:5000',
-                changeOrigin: true, //是否如实告知对方代理服务器的端口号
-                pathRewrite: { '^/api': '' }  //将添加的/api前缀删除
-            }
+### 2. 方式二
+
+```js
+devServer: {
+    proxy: {
+        '/api': {   //匹配以 /api 开头的请求路劲
+            target: 'http://localhost:5000',
+            changeOrigin: true, //是否如实告知对方代理服务器的端口号
+            pathRewrite: { '^/api': '' }  //将添加的/api前缀删除
         }
     }
-    ```
+}
+```
 
-    缺点: 请求资源时必须加前缀
+缺点: 请求资源时必须加前缀
 
-## 22. slot : 让 父组件 可以向 子组件 指定的位置插入 html 结构
+## slot : 让 父组件 可以向 子组件 指定的位置插入 html 结构
 
-1.默认插槽
+### 1.默认插槽
 
 ```js
 //父组件
@@ -271,17 +300,19 @@ methods:{
 </template>
 ```
 
-具名插槽
+### 2. 具名插槽
+
+父组件
 
 ```js
-//父组件
 <Category title="美食">
     <a slot="slot" href="">更多美食</a>
 </Category>
 ```
 
+子组件
+
 ```js
-//子组件
 <template>
     <div class="category">
         <h3>{{title}}分类</h3>
@@ -290,10 +321,11 @@ methods:{
 </template>
 ```
 
-作用域插槽: 父组件决定结构, 子组件决定数据
+### 3. 作用域插槽: 父组件决定结构, 子组件决定数据
+
+父组件
 
 ```js
-//父组件
 <Category title="游戏">
     <template scope="data">
         <ul>
@@ -311,8 +343,9 @@ methods:{
 </Category>
 ```
 
+子组件: 数据 games 在子组件中
+
 ```js
-//子组件: 数据 games 在子组件中
 <template>
     <div class="category">
         <h3>{{title}}分类</h3>
@@ -321,120 +354,126 @@ methods:{
 </template>
 ```
 
-## 24. Vuex
+## Vuex
 
-1. `Vuex` 是 集中式 状态(数据)管理的 `Vue` 插件, 使用与任意组件通信
-    1. `EventBus` 适用于 一个数据多方查看, 当一个数据多方修改时, 容易造成数据混乱, `Vuex` 将数据及对应方法封装在一起, 由 `Vuex` 统一提供或修改数据
-    2. 在不涉及数据请求时, `Vuex` 允许 组件 直接调用 `mutations`
-2. 搭建vuex环境
-    1. 创建文件：```src/store/index.js```
+### 1. `Vuex` 是 集中式 状态(数据)管理的 `Vue` 插件, 使用与任意组件通信
 
-    ```js
-    //引入Vue核心库
-    import Vue from 'vue'
-    //引入Vuex
-    import Vuex from 'vuex'
-    //应用Vuex插件
-    Vue.use(Vuex)
+1. `EventBus` 适用于 一个数据多方查看, 当一个数据多方修改时, 容易造成数据混乱, `Vuex` 将数据及对应方法封装在一起, 由 `Vuex` 统一提供或修改数据
+2. 在不涉及数据请求时, `Vuex` 允许 组件 直接调用 `mutations`
 
-    //准备actions对象——响应组件中用户的动作
-    const actions = {}
-    //准备mutations对象——修改state中的数据
-    const mutations = {}
-    //准备state对象——保存具体的数据
-    const state = {}
+### 2. 搭建vuex环境
 
-    //创建并暴露store
-    export default new Vuex.Store({
-    actions,
-    mutations,
-    state
-    })
-    ```
+1. 创建文件：```src/store/index.js```
 
-    2. 在```main.js```中创建vm时传入```store```配置项
+```js
+//引入Vue核心库
+import Vue from 'vue'
+//引入Vuex
+import Vuex from 'vuex'
+//应用Vuex插件
+Vue.use(Vuex)
 
-   ```js
-   ......
-   //引入store
-   import store from './store'
-   ......
-   
-   //创建vm
-   new Vue({
-    el:'#app',
-    render: h => h(App),
-    store
-   })
-   ```
+//准备actions对象——响应组件中用户的动作
+const actions = {}
+//准备mutations对象——修改state中的数据
+const mutations = {}
+//准备state对象——保存具体的数据
+const state = {}
 
-3. 基本使用
-    1. 初始化数据、配置```actions```、配置```mutations```，操作文件```store.js```
+//创建并暴露store
+export default new Vuex.Store({
+actions,
+mutations,
+state
+})
+```
 
-   ```js
-   //引入Vue核心库
-   import Vue from 'vue'
-   //引入Vuex
-   import Vuex from 'vuex'
-   //引用Vuex
-   Vue.use(Vuex)
-   
-   const actions = {
-       //响应组件中加的动作
-    jia(context,value){
-     // console.log('actions中的jia被调用了',miniStore,value)
-     context.commit('JIA',value)
-    },
-   }
-   
-   const mutations = {
-       //执行加
-    JIA(state,value){
-     // console.log('mutations中的JIA被调用了',state,value)
-     state.sum += value
+2. 在```main.js```中创建vm时传入```store```配置项
+
+```js
+......
+//引入store
+import store from './store'
+......
+
+//创建vm
+new Vue({
+el:'#app',
+render: h => h(App),
+store
+})
+```
+
+### 3. 基本使用
+
+1. 初始化数据、配置```actions```、配置```mutations```，操作文件```store.js```
+
+```js
+//引入Vue核心库
+import Vue from 'vue'
+//引入Vuex
+import Vuex from 'vuex'
+//引用Vuex
+Vue.use(Vuex)
+
+const actions = {
+    //响应组件中加的动作
+jia(context,value){
+    // console.log('actions中的jia被调用了',miniStore,value)
+    context.commit('JIA',value)
+},
+}
+
+const mutations = {
+    //执行加
+JIA(state,value){
+    // console.log('mutations中的JIA被调用了',state,value)
+    state.sum += value
+}
+}
+
+//初始化数据
+const state = {
+    sum:0
+}
+
+//创建并暴露store
+export default new Vuex.Store({
+actions,
+mutations,
+state,
+})
+```
+
+2. 组件中读取vuex中的数据：`$store.state.sum`
+
+3. 组件中修改vuex中的数据：`$store.dispatch('action中的方法名',数据)` 或 `$store.commit('mutations中的方法名',数据)`
+
+>  注: 若没有网络请求或其他业务逻辑，组件中也可以越过actions，即不写`dispatch`，直接编写`commit`
+>
+### 4. getters : 当 state 中的数据需要加工后再使用, 而且需要被复用, 可以使用 getters 加工, 类似 computed
+
+1. 在```store.js```中追加```getters```配置
+
+```js
+......
+
+const getters = {
+    bigSum(state){
+        return state.sum * 10
     }
-   }
-   
-   //初始化数据
-   const state = {
-      sum:0
-   }
-   
-   //创建并暴露store
-   export default new Vuex.Store({
-    actions,
-    mutations,
-    state,
-   })
-   ```
+}
 
-   2. 组件中读取vuex中的数据：`$store.state.sum`
-
-   3. 组件中修改vuex中的数据：`$store.dispatch('action中的方法名',数据)` 或 `$store.commit('mutations中的方法名',数据)`
-
-   >  注: 若没有网络请求或其他业务逻辑，组件中也可以越过actions，即不写`dispatch`，直接编写`commit`
-4. getters : 当 state 中的数据需要加工后再使用, 而且需要被复用, 可以使用 getters 加工, 类似 computed
-    1. 在```store.js```中追加```getters```配置
-
-    ```js
+//创建并暴露store
+export default new Vuex.Store({
     ......
-    
-    const getters = {
-        bigSum(state){
-            return state.sum * 10
-        }
-    }
-    
-    //创建并暴露store
-    export default new Vuex.Store({
-        ......
-        getters
-    })
-    ```
+    getters
+})
+```
 
-    2. 组件中读取数据：`$store.getters.bigSum`
+2. 组件中读取数据：`$store.getters.bigSum`
 
-## 26,27 vuex mapper
+### 5. mapper
 
 1. `mapState`: 映射`state`中的数据为计算属性
 
@@ -481,3 +520,73 @@ methods:{
 ```
 
 > 注：`mapActions`与`mapMutations`使用时，若需要传递参数需要：在模板中绑定事件时传递好参数，否则参数是事件对象
+
+### 6. 模块化+命名空间
+
+1. 目的：让代码更好维护，让多种数据分类更加明确。
+
+2. 修改```store.js```
+
+   ```javascript
+   const countAbout = {
+     namespaced:true,//开启命名空间
+     state:{x:1},
+     mutations: { ... },
+     actions: { ... },
+     getters: {
+       bigSum(state){
+          return state.sum * 10
+       }
+     }
+   }
+   
+   const personAbout = {
+     namespaced:true,//开启命名空间
+     state:{ ... },
+     mutations: { ... },
+     actions: { ... }
+   }
+   
+   const store = new Vuex.Store({
+     modules: {
+       countAbout,
+       personAbout
+     }
+   })
+   ```
+
+3. 开启命名空间后，组件中读取state数据：
+
+   ```js
+   //方式一：自己直接读取
+   this.$store.state.personAbout.list
+   //方式二：借助mapState读取：
+   ...mapState('countAbout',['sum','school','subject']),
+   ```
+
+4. 开启命名空间后，组件中读取getters数据：
+
+   ```js
+   //方式一：自己直接读取
+   this.$store.getters['personAbout/firstPersonName']
+   //方式二：借助mapGetters读取：
+   ...mapGetters('countAbout',['bigSum'])
+   ```
+
+5. 开启命名空间后，组件中调用dispatch
+
+   ```js
+   //方式一：自己直接dispatch
+   this.$store.dispatch('personAbout/addPersonWang',person)
+   //方式二：借助mapActions：
+   ...mapActions('countAbout',{incrementOdd:'jiaOdd',incrementWait:'jiaWait'})
+   ```
+
+6. 开启命名空间后，组件中调用commit
+
+   ```js
+   //方式一：自己直接commit
+   this.$store.commit('personAbout/ADD_PERSON',person)
+   //方式二：借助mapMutations：
+   ...mapMutations('countAbout',{increment:'JIA',decrement:'JIAN'}),
+   ```
