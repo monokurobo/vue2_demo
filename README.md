@@ -436,7 +436,7 @@ methods:{
 
 ## 26,27 vuex mapper
 
-1. `mapperState`: 映射`state`中的数据为计算属性
+1. `mapState`: 映射`state`中的数据为计算属性
 
 ```js
 computed: {
@@ -446,7 +446,7 @@ computed: {
 },
 ```
 
-2. `mapperGetter`: 映射`getters`中的数据为计算属性
+2. `mapGetter`: 映射`getters`中的数据为计算属性
 
 ```js
 computed: {
