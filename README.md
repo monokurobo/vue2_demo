@@ -21,7 +21,7 @@
     <Demo name="xxxx"/>
     ```
 
-    注: number 类型, 用 ' :age="18" '
+    > 注: number 类型, 用 ' :age="18" '
 2. 接收数据
 
     ```js
@@ -44,7 +44,7 @@
     }
     ```
 
-    注: props 只读
+    > 注: props 只读
 
 ## 4. mixin : 把多个组件共用的配置提前到一个混合对象
 
@@ -131,12 +131,13 @@ obj.install = function (Vue, options){
     <Student ref="student"></Student>
     ```
 
-    注: 若只触发一次,使用 once 或 $once 修饰符
+    > 注: 若只触发一次,使用 once 或 $once 修饰符
 
 3. 触发: `this.$emit('event',param1,param2,param3)`
 4. 解绑: `this.$off()` / `this.$off('event')` / `this.$off(['event1', 'event2', 'event3'])`
 5. 组件上绑定原生事件, 需要使用 native 修饰符
-注: 使用 `this.$refs.xxx.$on` 时, 回调函数的作用域, 建议回调卸载 `methods` 中, 使用匿名函数写成箭头函数
+
+> 注: 使用 `this.$refs.xxx.$on` 时, 回调函数的作用域, 建议回调卸载 `methods` 中, 使用匿名函数写成箭头函数
 
 ## 12. 全局数据总线 GlobalEventBus : 组件间通信方式, 适用于 任意组件间
 
@@ -174,7 +175,7 @@ methods:{
 }
 ```
 
-注: 最好在  beforeDestroy 中 解绑
+> 注: 最好在  beforeDestroy 中 解绑
 
 ## 14. 消息订阅与发布 pubsub : 组件间通信方式, 适用于 任意组件间
 
@@ -206,7 +207,7 @@ methods:{
 }
 ```
 
-注: 在 Vue 中, 使用 GlobalEventBus
+> 注: 在 Vue 中, 使用 GlobalEventBus
 
 ## 16. nextick
 
@@ -220,7 +221,7 @@ methods:{
 使用:
     1. 准备好样式: `v-enter`,`v-leave-to`,`v-enter-to`,`v-leave`,`v-enter-active`,`v-leave-active`
     2. 使用 `transition` 包裹元素, 并配置 `name`
-注: 多个元素使用 `transition-group`, 并且每个元素需要配置 `key`
+> 注: 多个元素使用 `transition-group`, 并且每个元素需要配置 `key`
 
 ## 19. Vue-cli 的服务代理 : vue.config.js中配置
 
@@ -319,3 +320,116 @@ methods:{
     </div>
 </template>
 ```
+
+## 24. Vuex
+
+1. `Vuex` 是 集中式 状态(数据)管理的 `Vue` 插件, 使用与任意组件通信
+    1. `EventBus` 适用于 一个数据多方查看, 当一个数据多方修改时, 容易造成数据混乱, `Vuex` 将数据及对应方法封装在一起, 由 `Vuex` 统一提供或修改数据
+    2. 在不涉及数据请求时, `Vuex` 允许 组件 直接调用 `mutations`
+2. 搭建vuex环境
+    1. 创建文件：```src/store/index.js```
+
+    ```js
+    //引入Vue核心库
+    import Vue from 'vue'
+    //引入Vuex
+    import Vuex from 'vuex'
+    //应用Vuex插件
+    Vue.use(Vuex)
+
+    //准备actions对象——响应组件中用户的动作
+    const actions = {}
+    //准备mutations对象——修改state中的数据
+    const mutations = {}
+    //准备state对象——保存具体的数据
+    const state = {}
+
+    //创建并暴露store
+    export default new Vuex.Store({
+    actions,
+    mutations,
+    state
+    })
+    ```
+
+    2. 在```main.js```中创建vm时传入```store```配置项
+
+   ```js
+   ......
+   //引入store
+   import store from './store'
+   ......
+   
+   //创建vm
+   new Vue({
+    el:'#app',
+    render: h => h(App),
+    store
+   })
+   ```
+
+3. 基本使用
+    1. 初始化数据、配置```actions```、配置```mutations```，操作文件```store.js```
+
+   ```js
+   //引入Vue核心库
+   import Vue from 'vue'
+   //引入Vuex
+   import Vuex from 'vuex'
+   //引用Vuex
+   Vue.use(Vuex)
+   
+   const actions = {
+       //响应组件中加的动作
+    jia(context,value){
+     // console.log('actions中的jia被调用了',miniStore,value)
+     context.commit('JIA',value)
+    },
+   }
+   
+   const mutations = {
+       //执行加
+    JIA(state,value){
+     // console.log('mutations中的JIA被调用了',state,value)
+     state.sum += value
+    }
+   }
+   
+   //初始化数据
+   const state = {
+      sum:0
+   }
+   
+   //创建并暴露store
+   export default new Vuex.Store({
+    actions,
+    mutations,
+    state,
+   })
+   ```
+
+   2. 组件中读取vuex中的数据：`$store.state.sum`
+
+   3. 组件中修改vuex中的数据：`$store.dispatch('action中的方法名',数据)` 或 `$store.commit('mutations中的方法名',数据)`
+
+   >  注: 若没有网络请求或其他业务逻辑，组件中也可以越过actions，即不写`dispatch`，直接编写`commit`
+4. getters : 当 state 中的数据需要加工后再使用, 而且需要被复用, 可以使用 getters 加工, 类似 computed
+    1. 在```store.js```中追加```getters```配置
+
+    ```js
+    ......
+    
+    const getters = {
+        bigSum(state){
+            return state.sum * 10
+        }
+    }
+    
+    //创建并暴露store
+    export default new Vuex.Store({
+        ......
+        getters
+    })
+    ```
+
+    2. 组件中读取数据：`$store.getters.bigSum`
