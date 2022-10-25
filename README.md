@@ -880,7 +880,21 @@ this.$router.go() //可前进也可后退
 
 ```vue
 <!-- include 里 放组件名 -->
-<keep-alive include="News">  
+<!-- 缓存一个 -->
+<!-- <keep-alive include="News">   -->
+
+<!-- 缓存多个 -->
+<!-- <keep-alive :include="['News','Message']"> -->
+
+<!-- 缓存全部 -->
+<keep-alive>
     <router-view></router-view>
 </keep-alive>
 ```
+
+### 11.两个新的生命周期钩子
+
+1. 作用：路由组件所独有的两个钩子，用于捕获路由组件的激活状态。
+2. 具体名字：
+   1. ```activated```路由组件被激活时触发。
+   2. ```deactivated```路由组件失活时触发。
