@@ -1,12 +1,16 @@
 import Vue from 'vue'
-import VueRouter from 'vue-router'
 import App from './App.vue'
-import router from './router'
+// import ElementUI from 'element-ui';
+// import 'element-ui/lib/theme-chalk/index.css';
 
+import { Row,Button } from 'element-ui';
 Vue.config.productionTip = false
-Vue.use(VueRouter)
+
+// Vue.use(ElementUI)
+Vue.use(Button)
+Vue.use(Row)
+
 
 new Vue({
   render: h => h(App),  // h 为 createElement
-  router: router
 }).$mount('#app')

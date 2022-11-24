@@ -978,5 +978,15 @@ beforeRouteLeave (to, from, next) {
    3. 应用部署上线时需要后端人员支持，解决刷新页面服务端404的问题。
 
 ```js
-    mode: hash // history
+    mode: 'hash' // 'history'
 ```
+
+Vue UI 组件库
+移动端
+Vant
+Cube UI
+Mint UI
+
+PC端
+Element UI
+IView UI
